@@ -1,7 +1,8 @@
 export interface Flashcard {
   id: string
   front: string
-  back: string
+  definition: string
+  example: string[]
   category: string
   easeFactor: number
   interval: number
@@ -9,6 +10,15 @@ export interface Flashcard {
   nextReview: Date
   lastReviewed?: Date
 }
+
+
+export interface EditFlashcard {
+  front: string
+  definition: string
+  example: string[]
+  category: string
+}
+
 
 export interface StudySession {
   cardId: string

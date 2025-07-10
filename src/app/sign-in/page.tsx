@@ -7,7 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/componen
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { supabase } from '@/lib/supabase'
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 const signInSchema = z.object({
   email: z.email({ message: 'Invalid email address.' }),
@@ -43,7 +43,7 @@ export default function SignInPage() {
 
     if (data) {
       console.log('User signed in:', data)
-      router.push('/')
+      router.push('/dashboard')
     }
   }
 
@@ -54,7 +54,7 @@ export default function SignInPage() {
           <CardHeader>
             <CardTitle className='text-2xl text-center'>Sign In</CardTitle>
           </CardHeader>
-          <CardContent className='flex flex-col gap-4'>
+          <CardContent className='flex flex-col gap-4 pb-4'>
             <div>
               <label className='block mb-1 font-medium' htmlFor='email'>
                 Email

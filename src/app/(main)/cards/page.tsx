@@ -6,21 +6,27 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
-import { Search, Filter, BookOpen, Clock, Award } from 'lucide-react'
-import Link from 'next/link'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { CardForm } from '@/components/card-form'
+import { Search, Filter, BookOpen, Clock, Award, Plus, MoreVertical, Edit, Trash2 } from 'lucide-react'
+import type { EditFlashcard, Flashcard } from '@/types/flashcard'
 
 export default function CardsPage() {
-  const { cards } = useFlashcards()
+  const { cards, addCard, editCard, deleteCard } = useFlashcards()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedStatus, setSelectedStatus] = useState('All')
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+  const [editingCard, setEditingCard] = useState<Flashcard | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const categories = ['All', ...Array.from(new Set(cards.map(card => card.category)))]
   const statuses = ['All', 'New', 'Learning', 'Mastered']
 
   const filteredCards = cards.filter(card => {
     const matchesSearch =
-      card.front.toLowerCase().includes(searchTerm.toLowerCase()) || card.back.toLowerCase().includes(searchTerm.toLowerCase())
+      card.front.toLowerCase().includes(searchTerm.toLowerCase()) || card.definition.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesCategory = selectedCategory === 'All' || card.category === selectedCategory
 
     let matchesStatus = true
@@ -31,7 +37,39 @@ export default function CardsPage() {
     return matchesSearch && matchesCategory && matchesStatus
   })
 
-  const getStatusBadge = (card: any) => {
+  const handleAddCard = async (cardData: EditFlashcard) => {
+    setIsLoading(true)
+    try {
+      addCard(cardData)
+      setIsAddModalOpen(false)
+    } catch (error) {
+      alert('Failed to add card. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleEditCard = async (cardData: EditFlashcard) => {
+    if (!editingCard) return
+
+    setIsLoading(true)
+    try {
+      editCard(editingCard.id, cardData)
+      setEditingCard(null)
+    } catch (error) {
+      alert('Failed to update card. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleDeleteCard = (cardId: string) => {
+    if (confirm('Are you sure you want to delete this card? This action cannot be undone.')) {
+      deleteCard(cardId)
+    }
+  }
+
+  const getStatusBadge = (card: Flashcard) => {
     if (card.repetitions === 0) return <Badge variant='secondary'>New</Badge>
     if (card.repetitions < 3) return <Badge variant='outline'>Learning</Badge>
     return <Badge className='bg-green-100 text-green-800'>Mastered</Badge>
@@ -50,9 +88,22 @@ export default function CardsPage() {
           <h1 className='text-3xl font-bold mb-2'>Card Library</h1>
           <p className='text-muted-foreground'>Manage your vocabulary cards</p>
         </div>
-        <Link href='/'>
-          <Button variant='outline'>Back to Dashboard</Button>
-        </Link>
+
+        {/* Add New Card Button */}
+        <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
+          <DialogTrigger asChild>
+            <Button className='flex items-center space-x-2'>
+              <Plus className='w-4 h-4' />
+              <span>Add New Card</span>
+            </Button>
+          </DialogTrigger>
+          <DialogContent className='max-w-2xl'>
+            <DialogHeader>
+              <DialogTitle>Add New Flashcard</DialogTitle>
+            </DialogHeader>
+            <CardForm onSubmit={handleAddCard} onCancel={() => setIsAddModalOpen(false)} isLoading={isLoading} />
+          </DialogContent>
+        </Dialog>
       </div>
 
       {/* Filters */}
@@ -116,10 +167,31 @@ export default function CardsPage() {
       {/* Cards Grid */}
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         {filteredCards.map(card => (
-          <Card key={card.id} className='hover:shadow-md transition-shadow'>
-            <CardHeader className='pb-3'>
+          <Card key={card.id} className='hover:shadow-md transition-shadow relative'>
+            {/* Options Menu */}
+            <div className='absolute top-3 right-3 z-10'>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant='ghost' size='sm' className='h-8 w-8 p-0'>
+                    <MoreVertical className='h-4 w-4' />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align='end'>
+                  <DropdownMenuItem onClick={() => setEditingCard(card)}>
+                    <Edit className='w-4 h-4 mr-2' />
+                    Edit
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleDeleteCard(card.id)} className='text-red-600 focus:text-red-600'>
+                    <Trash2 className='w-4 h-4 mr-2' />
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
+            <CardHeader className='pb-3 pr-12'>
               <div className='flex justify-between items-start'>
-                <CardTitle className='text-lg'>{card.front}</CardTitle>
+                <CardTitle className='text-lg pr-4'>{card.front}</CardTitle>
                 {getStatusBadge(card)}
               </div>
               <Badge variant='outline' className='w-fit text-xs'>
@@ -127,8 +199,11 @@ export default function CardsPage() {
               </Badge>
             </CardHeader>
             <CardContent>
-              <p className='text-muted-foreground mb-4'>{card.back}</p>
-
+              {card.example.map((example, index) => (
+                <p key={index} className='text-muted-foreground mb-4 line-clamp-3'>
+                  {example}
+                </p>
+              ))}
               <div className='space-y-2 text-sm'>
                 <div className='flex justify-between'>
                   <span className='flex items-center'>
@@ -155,21 +230,45 @@ export default function CardsPage() {
                 </div>
 
                 <div className='flex justify-between'>
+                  <span className='flex items-center'>
+                    <Award className='w-4 h-4 mr-1' />
+                    Review Count:
+                  </span>
+                  <span className='font-medium'>{card.repetitions}</span>
+                </div>
+
+                {/* <div className='flex justify-between'>
                   <span>Next Review:</span>
                   <span className='font-medium'>{new Date(card.nextReview).toLocaleDateString()}</span>
-                </div>
+                </div> */}
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
 
+      {/* Edit Card Modal */}
+      <Dialog open={!!editingCard} onOpenChange={() => setEditingCard(null)}>
+        <DialogContent className='max-w-2xl'>
+          <DialogHeader>
+            <DialogTitle>Edit Flashcard</DialogTitle>
+          </DialogHeader>
+          {editingCard && (
+            <CardForm card={editingCard} onSubmit={handleEditCard} onCancel={() => setEditingCard(null)} isLoading={isLoading} />
+          )}
+        </DialogContent>
+      </Dialog>
+
       {filteredCards.length === 0 && (
         <Card className='text-center py-8'>
           <CardContent>
             <BookOpen className='w-16 h-16 text-muted-foreground mx-auto mb-4' />
             <h3 className='text-lg font-semibold mb-2'>No cards found</h3>
-            <p className='text-muted-foreground'>Try adjusting your search or filter criteria.</p>
+            <p className='text-muted-foreground mb-4'>Try adjusting your search or filter criteria.</p>
+            <Button onClick={() => setIsAddModalOpen(true)}>
+              <Plus className='w-4 h-4 mr-2' />
+              Add Your First Card
+            </Button>
           </CardContent>
         </Card>
       )}

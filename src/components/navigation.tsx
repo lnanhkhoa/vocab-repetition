@@ -3,15 +3,15 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Home, Play, BarChart3, BookOpen } from 'lucide-react'
+import { Play, BarChart3, BookOpen, Eye } from 'lucide-react'
 
 export function Navigation() {
   const pathname = usePathname()
 
   const navItems = [
-    { href: '/', label: 'Dashboard', icon: Home },
     { href: '/study', label: 'Study', icon: Play },
     { href: '/cards', label: 'Cards', icon: BookOpen },
+    { href: '/samples', label: 'Samples', icon: Eye },
     { href: '/statistics', label: 'Statistics', icon: BarChart3 }
   ]
 
@@ -20,8 +20,8 @@ export function Navigation() {
       <div className='container mx-auto px-4'>
         <div className='flex h-16 items-center justify-between'>
           <div className='flex items-center space-x-4'>
-            <Link href='/' className='font-bold text-xl'>
-              English SRS
+            <Link href='/dashboard' className='font-bold text-xl'>
+              Vocab Builder
             </Link>
           </div>
 
