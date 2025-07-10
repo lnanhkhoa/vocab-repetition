@@ -1,4 +1,4 @@
-import type { Flashcard } from "@/types/flashcard"
+import type { Flashcard } from '@/types/flashcard'
 
 export function calculateNextReview(card: Flashcard, quality: number): Flashcard {
   // SM-2 Algorithm implementation
@@ -30,11 +30,11 @@ export function calculateNextReview(card: Flashcard, quality: number): Flashcard
     interval,
     repetitions,
     nextReview,
-    lastReviewed: new Date(),
+    lastReviewed: new Date()
   }
 }
 
 export function getCardsForReview(cards: Flashcard[]): Flashcard[] {
   const now = new Date()
-  return cards.filter((card) => new Date(card.nextReview) <= now)
+  return cards.filter(card => new Date(card.nextReview) <= now)
 }
