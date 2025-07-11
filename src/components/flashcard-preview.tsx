@@ -70,18 +70,18 @@ export function FlashcardPreview() {
 
       {/* Main Card */}
       <Card className='min-h-[400px] shadow-lg border-2 hover:shadow-xl transition-shadow'>
-        <CardHeader className='text-center pb-4'>
+        <CardHeader className='text-center pb-2'>
           <div className='flex justify-center items-center space-x-2'>
             <BookOpen className='w-5 h-5 text-muted-foreground' />
             <CardTitle className='text-lg'>{isFlipped ? 'Definition & Example' : 'Word/Phrase'}</CardTitle>
           </div>
         </CardHeader>
 
-        <CardContent className='flex flex-col items-center justify-center text-center p-8'>
+        <CardContent className='flex flex-col text-center'>
           <div className='flex-1 flex items-center justify-center w-full min-h-[200px]'>
             {!isFlipped ? (
               // Front of card
-              <div className='space-y-4'>
+              <div className='space-y-2'>
                 <Button
                   variant='ghost'
                   size='sm'
@@ -97,25 +97,25 @@ export function FlashcardPreview() {
               </div>
             ) : (
               // Back of card
-              <div className='space-y-4 max-w-2xl'>
-                <div className='flex items-start justify-start space-x-3'>
+              <div className='space-y-4 max-w-2xl p-4'>
+                <div className=''>
                   <Button
                     variant='ghost'
                     size='sm'
-                    onClick={() => speakText(currentCard.definition)}
-                    className='text-gray-500 hover:text-gray-700 mt-1 flex-shrink-0'
+                    onClick={() => speakText(currentCard.front)}
+                    className='text-gray-500 hover:text-gray-700'
                   >
-                    <Volume2 className='w-4 h-4' />
+                    <Volume2 className='w-5 h-5' />
                   </Button>
-                  <div className='text-lg text-gray-700 leading-relaxed text-left'>{currentCard.definition}</div>
+                  <div className='flex items-center justify-center space-x-3'>
+                    <h1 className='text-4xl font-bold text-gray-900'>{currentCard.front}</h1>
+                  </div>
+                  <p className='text-muted-foreground mb-4 line-clamp-3 mt-2'>{currentCard.definition}</p>
                 </div>
-                {currentCard.example.map(example => {
-                  const exampleText = example
-                    .replace(currentCard.front.toLowerCase(), `<b>${currentCard.front.toLowerCase()}</b>`)
-                    .replace(currentCard.front.toUpperCase(), `<b>${currentCard.front.toUpperCase()}</b>`)
-
-                  return (
-                    <div className='flex items-start justify-start space-x-3'>
+                <h2 className='text-xl font-bold text-gray-900 mt-2'>Example</h2>
+                <div className='space-y-2'>
+                  {currentCard?.example?.map((example, index) => (
+                    <div className='flex items-start justify-start space-x-3' key={index.toString()}>
                       <Button
                         variant='ghost'
                         size='sm'
@@ -124,43 +124,63 @@ export function FlashcardPreview() {
                       >
                         <Volume2 className='w-4 h-4' />
                       </Button>
-                      <div className='text-lg text-left' dangerouslySetInnerHTML={{ __html: exampleText }} />
+                      <div className='text-lg text-left'>{example}</div>
                     </div>
-                  )
-                })}
+                  ))}
+                </div>
               </div>
             )}
           </div>
 
           {/* Action Buttons */}
-          <div className='flex flex-col items-center space-y-4 mt-6'>
+          <div className='flex flex-col items-center'>
             <Button onClick={() => setIsFlipped(!isFlipped)} size='lg' className='px-8'>
               {isFlipped ? (
                 <>
                   <RotateCcw className='w-4 h-4 mr-2' />
-                  Show Word
+                  {'Show Word'}
                 </>
               ) : (
-                'Show Answer'
+                'Show Example'
               )}
             </Button>
 
             {/* Anki Review Buttons */}
             {isFlipped && (
-              <div className='flex flex-wrap justify-center gap-3 mt-2'>
-                <Button variant='secondary' size='lg' className='items-center' onClick={() => handleReview(0)}>
+              <div className='flex flex-wrap justify-center gap-3 mt-8'>
+                <Button
+                  variant='secondary'
+                  size='lg'
+                  className='items-center bg-red-500/10 hover:bg-red-600/20'
+                  onClick={() => handleReview(0)}
+                >
                   <span>Again</span>
                   <span className='text-xs opacity-80'>&lt;1 min</span>
                 </Button>
-                <Button variant='secondary' size='lg' className='items-center' onClick={() => handleReview(1)}>
+                <Button
+                  variant='secondary'
+                  size='lg'
+                  className='items-center bg-orange-500/10 hover:bg-orange-600/20'
+                  onClick={() => handleReview(1)}
+                >
                   <span>Hard</span>
                   <span className='text-xs opacity-80'>10 min</span>
                 </Button>
-                <Button variant='secondary' size='lg' className='items-center' onClick={() => handleReview(2)}>
+                <Button
+                  variant='secondary'
+                  size='lg'
+                  className='items-center bg-green-500/10 hover:bg-green-600/20'
+                  onClick={() => handleReview(2)}
+                >
                   <span>Good</span>
                   <span className='text-xs opacity-80'>1 day</span>
                 </Button>
-                <Button variant='secondary' size='lg' className='items-center' onClick={() => handleReview(3)}>
+                <Button
+                  variant='secondary'
+                  size='lg'
+                  className='items-center bg-blue-500/10 hover:bg-blue-600/20'
+                  onClick={() => handleReview(3)}
+                >
                   <span>Easy</span>
                   <span className='text-xs opacity-80'>4 days</span>
                 </Button>

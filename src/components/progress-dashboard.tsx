@@ -58,7 +58,7 @@ export function ProgressDashboard({ stats }: ProgressDashboardProps) {
         </CardContent>
       </Card>
 
-      <Card className='md:col-span-2 lg:col-span-4'>
+      {/* <Card className='md:col-span-2 lg:col-span-4'>
         <CardHeader>
           <CardTitle className='text-sm font-medium'>Overall Progress</CardTitle>
         </CardHeader>
@@ -66,7 +66,7 @@ export function ProgressDashboard({ stats }: ProgressDashboardProps) {
           <Progress value={completionRate} className='w-full' />
           <p className='text-sm text-muted-foreground mt-2'>{completionRate.toFixed(1)}% of cards mastered</p>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   )
 }

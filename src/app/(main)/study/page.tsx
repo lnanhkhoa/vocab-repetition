@@ -1,24 +1,42 @@
 'use client'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { Card, Button, Label } from '@/components/ui'
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue, SelectLabel, selec } from '@/components/ui/select'
 
-import { FlashcardPreview } from '@/components/flashcard-preview'
+import { CATEGORIES } from '@/constants/app-config'
 
-export default function SamplesPage() {
+export default function StudyOptionsPage() {
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const router = useRouter()
+
+  const handleStart = () => {
+    if (selectedCategory) {
+      // Pass the selected category as a query param
+      router.push(`/study/${encodeURIComponent(selectedCategory)}`)
+    }
+  }
+
   return (
-    <div className='min-h-screen bg-gray-50'>
-      {/* Header */}
-      <div className='bg-white border-b'>
-        <div className='container mx-auto px-4 py-8'>
-          <div className='text-center'>
-            <h1 className='text-4xl font-bold mb-4'>Study Flashcards</h1>
-            <p className='text-xl text-muted-foreground mb-6'>Explore our comprehensive collection of English learning flashcards</p>
-          </div>
-        </div>
-      </div>
-
-      <div className='container mx-auto px-4 py-8'>
-        {/* Interactive Preview */}
-        <FlashcardPreview />
-      </div>
+    <div className='flex justify-center items-center min-h-[60vh]'>
+      <Card className='w-full max-w-md p-8'>
+        <Label className='text-xl mb-6 block'>Select a Category to Study</Label>
+        <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+          <SelectTrigger className='w-full mb-6' aria-label='Category'>
+            <SelectValue placeholder='Choose a category...' />
+          </SelectTrigger>
+          <SelectContent>
+            {CATEGORIES.map(cat => (
+              <SelectItem key={cat.id} value={cat.id}>
+                <Label>{cat.label}</Label>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Button className='w-full mt-4' onClick={handleStart} disabled={!selectedCategory}>
+          Start Studying
+        </Button>
+      </Card>
     </div>
   )
 }

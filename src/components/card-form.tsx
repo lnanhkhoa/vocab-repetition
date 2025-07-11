@@ -19,7 +19,7 @@ interface CardFormProps {
   isLoading?: boolean
 }
 
-const categories: string[] = CATEGORIES.map(cat => cat.name)
+const categories: string[] = CATEGORIES.map(cat => cat.id)
 
 export function CardForm({ card, onSubmit, onCancel, isLoading = false }: CardFormProps) {
   const { register, handleSubmit, control, setValue, watch, reset, formState: { errors } } = useForm({
@@ -41,7 +41,7 @@ export function CardForm({ card, onSubmit, onCancel, isLoading = false }: CardFo
         front: card.front,
         definition: card.definition,
         example: card.example,
-        category: categories.includes(card.category) ? card.category : 'Custom',
+        category: categories.includes(card.category) ? card.category : categories[0],
         customCategory: categories.includes(card.category) ? '' : card.category,
       });
     }

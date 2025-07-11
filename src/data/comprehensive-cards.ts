@@ -6,9 +6,9 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
     front: 'Serendipity',
     definition: 'The occurrence of events by chance in a happy or beneficial way.',
     example: [
-      'Finding that book was pure serendipity—it had exactly the information I needed.',
-      'I ran into my old classmate at a café in Paris—it was pure serendipity.',
-      'They met on a delayed flight and ended up getting married—a true story of serendipity.'
+      'Finding that book was pure serendipity — it had exactly the information I needed.',
+      'I ran into my old classmate at a café in Paris — it was pure serendipity.',
+      'They met on a delayed flight and ended up getting married — a true story of serendipity.'
     ],
     category: 'Advanced Vocabulary'
   },

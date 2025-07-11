@@ -199,7 +199,7 @@ export default function CardsPage() {
               </Badge>
             </CardHeader>
             <CardContent>
-              {card.example.map((example, index) => (
+              {card.example?.map((example, index) => (
                 <p key={index} className='text-muted-foreground mb-4 line-clamp-3'>
                   {example}
                 </p>

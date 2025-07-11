@@ -11,7 +11,6 @@ export function Navigation() {
   const navItems = [
     { href: '/study', label: 'Study', icon: Play },
     { href: '/cards', label: 'Cards', icon: BookOpen },
-    { href: '/samples', label: 'Samples', icon: Eye },
     { href: '/statistics', label: 'Statistics', icon: BarChart3 }
   ]
 
