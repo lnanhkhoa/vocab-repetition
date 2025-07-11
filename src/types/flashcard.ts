@@ -1,9 +1,11 @@
+import { Category } from '@/hooks/use-categories'
+
 export interface Flashcard {
   id: string
   front: string
   definition: string
   example: string[]
-  category: string
+  category: Category
   easeFactor: number
   interval: number
   repetitions: number
@@ -11,19 +13,11 @@ export interface Flashcard {
   lastReviewed?: Date
 }
 
-
 export interface EditFlashcard {
   front: string
   definition: string
   example: string[]
-  category: string
-}
-
-
-export interface StudySession {
-  cardId: string
-  quality: number // 0-5 rating
-  timestamp: Date
+  category: Category
 }
 
 export interface UserProgress {

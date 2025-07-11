@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import type { Flashcard, UserProgress } from "@/types/flashcard"
 import { calculateNextReview, getCardsForReview } from "@/lib/srs-algorithm"
-import { sampleCards } from "@/data/sample-cards"
+import { comprehensiveCards } from "@/data/comprehensive-cards"
 
 export function useFlashcards() {
   const [cards, setCards] = useState<Flashcard[]>([])
@@ -27,7 +27,7 @@ export function useFlashcards() {
       setCards(parsedCards)
     } else {
       // Initialize with sample cards
-      const initialCards: Flashcard[] = sampleCards.map((card, index) => ({
+      const initialCards: Flashcard[] = comprehensiveCards.map((card, index) => ({
         ...card,
         id: `card-${index}`,
         easeFactor: 2.5,

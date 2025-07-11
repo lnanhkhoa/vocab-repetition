@@ -1,13 +1,9 @@
-enum Category {
+export enum Category {
   advancedVocabulary = 'advanced-vocabulary',
   phrasalVerbs = 'phrasal-verbs',
   idioms = 'idioms',
   businessEnglish = 'business-english',
-  academicVocabulary = 'academic-vocabulary',
-  toeflielts = 'toefl-ielts',
-  grammarConcepts = 'grammar-concepts',
-  commonMistakes = 'common-mistakes',
-  descriptiveAdjectives = 'descriptive-adjectives'
+  academicVocabulary = 'academic-vocabulary'
 }
 
 const categoryLabels = {
@@ -15,11 +11,7 @@ const categoryLabels = {
   [Category.phrasalVerbs]: 'Phrasal Verbs',
   [Category.idioms]: 'Idioms',
   [Category.businessEnglish]: 'Business English',
-  [Category.academicVocabulary]: 'Academic Vocabulary',
-  [Category.toeflielts]: 'TOEFL/IELTS',
-  [Category.grammarConcepts]: 'Grammar Concepts',
-  [Category.commonMistakes]: 'Common Mistakes',
-  [Category.descriptiveAdjectives]: 'Descriptive Adjectives'
+  [Category.academicVocabulary]: 'Academic Vocabulary'
 }
 
 export const CATEGORIES = [
@@ -27,10 +19,7 @@ export const CATEGORIES = [
   { id: Category.phrasalVerbs, count: 5, color: 'bg-blue-500', description: 'Essential multi-word verbs' },
   { id: Category.idioms, count: 5, color: 'bg-green-500', description: 'Common English expressions' },
   { id: Category.businessEnglish, count: 5, color: 'bg-orange-500', description: 'Professional vocabulary' },
-  { id: Category.academicVocabulary, count: 5, color: 'bg-red-500', description: 'University-level terms' },
-  { id: Category.toeflielts, count: 5, color: 'bg-indigo-500', description: 'Test preparation words' },
-  { id: Category.grammarConcepts, count: 5, color: 'bg-yellow-500', description: 'Important grammar rules' },
-  { id: Category.commonMistakes, count: 5, color: 'bg-rose-500', description: 'Frequently confused words' }
+  { id: Category.academicVocabulary, count: 5, color: 'bg-red-500', description: 'University-level terms' }
 ].map(i => ({ ...i, label: categoryLabels[i.id] }))
 
 export const CATEGORY_COLORS: Record<string, string> = {
@@ -38,9 +27,14 @@ export const CATEGORY_COLORS: Record<string, string> = {
   [Category.phrasalVerbs]: 'bg-blue-100 text-blue-800',
   [Category.idioms]: 'bg-green-100 text-green-800',
   [Category.businessEnglish]: 'bg-orange-100 text-orange-800',
-  [Category.academicVocabulary]: 'bg-red-100 text-red-800',
-  [Category.toeflielts]: 'bg-indigo-100 text-indigo-800',
-  [Category.grammarConcepts]: 'bg-yellow-100 text-yellow-800',
-  [Category.commonMistakes]: 'bg-rose-100 text-rose-800',
-  [Category.descriptiveAdjectives]: 'bg-teal-100 text-teal-800'
+  [Category.academicVocabulary]: 'bg-red-100 text-red-800'
 }
+
+export const DIFFICULTY_LEVELS = [
+  { value: 'beginner', label: 'Beginner (A1-A2)' },
+  { value: 'intermediate', label: 'Intermediate (B1-B2)' },
+  { value: 'advanced', label: 'Advanced (C1-C2)' },
+  { value: 'mixed', label: 'Mixed Levels' }
+]
+
+export const OPTION_SELECT_ALL = { value: 'all', label: 'All' }

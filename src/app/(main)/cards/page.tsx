@@ -9,32 +9,30 @@ import { Badge } from '@/components/ui/badge'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { CardForm } from '@/components/card-form'
-import { Search, Filter, BookOpen, Clock, Award, Plus, MoreVertical, Edit, Trash2 } from 'lucide-react'
+import { Search, Filter, BookOpen, Clock, Award, Plus, MoreVertical, Edit, Trash2, FolderPlus, Folder } from 'lucide-react'
 import type { EditFlashcard, Flashcard } from '@/types/flashcard'
+import { useCategories } from '@/hooks/use-categories'
+import { CategoryForm } from '@/components/category-form'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui'
+import { toast } from 'sonner'
+import { OPTION_SELECT_ALL } from '@/constants/app-config'
 
 export default function CardsPage() {
   const { cards, addCard, editCard, deleteCard } = useFlashcards()
+  const { categories, addCategory } = useCategories()
+
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('All')
-  const [selectedStatus, setSelectedStatus] = useState('All')
+  const [selectedCategory, setSelectedCategory] = useState(OPTION_SELECT_ALL)
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [editingCard, setEditingCard] = useState<Flashcard | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-
-  const categories = ['All', ...Array.from(new Set(cards.map(card => card.category)))]
-  const statuses = ['All', 'New', 'Learning', 'Mastered']
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false)
+  const [isCategoryLoading, setIsCategoryLoading] = useState(false)
 
   const filteredCards = cards.filter(card => {
-    const matchesSearch =
-      card.front.toLowerCase().includes(searchTerm.toLowerCase()) || card.definition.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = selectedCategory === 'All' || card.category === selectedCategory
-
-    let matchesStatus = true
-    if (selectedStatus === 'New') matchesStatus = card.repetitions === 0
-    else if (selectedStatus === 'Learning') matchesStatus = card.repetitions > 0 && card.repetitions < 3
-    else if (selectedStatus === 'Mastered') matchesStatus = card.repetitions >= 3
-
-    return matchesSearch && matchesCategory && matchesStatus
+    const matchesSearch = card.front.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesCategory = selectedCategory.value === OPTION_SELECT_ALL.value || card.category.code === selectedCategory.value
+    return matchesSearch && matchesCategory
   })
 
   const handleAddCard = async (cardData: EditFlashcard) => {
@@ -43,7 +41,7 @@ export default function CardsPage() {
       addCard(cardData)
       setIsAddModalOpen(false)
     } catch (error) {
-      alert('Failed to add card. Please try again.')
+      toast.error('Failed to add card. Please try again.')
     } finally {
       setIsLoading(false)
     }
@@ -57,7 +55,7 @@ export default function CardsPage() {
       editCard(editingCard.id, cardData)
       setEditingCard(null)
     } catch (error) {
-      alert('Failed to update card. Please try again.')
+      toast.error('Failed to update card. Please try again.')
     } finally {
       setIsLoading(false)
     }
@@ -81,6 +79,27 @@ export default function CardsPage() {
     return 'text-red-600'
   }
 
+  const handleAddCategory = async (categoryData: { name: string; description: string; color: string; difficulty: string }) => {
+    setIsCategoryLoading(true)
+    try {
+      // Check if category name already exists
+      const existingCategory = categories.find(cat => cat.name.toLowerCase() === categoryData.name.toLowerCase())
+
+      if (existingCategory) {
+        alert('A category with this name already exists. Please choose a different name.')
+        return
+      }
+
+      addCategory(categoryData)
+      setIsCategoryModalOpen(false)
+      toast.success(`Category "${categoryData.name}" created successfully!`)
+    } catch (error) {
+      toast.error('Failed to create category. Please try again.')
+    } finally {
+      setIsCategoryLoading(false)
+    }
+  }
+
   return (
     <div className='container mx-auto px-4 py-8'>
       <div className='flex justify-between items-center mb-8'>
@@ -89,24 +108,44 @@ export default function CardsPage() {
           <p className='text-muted-foreground'>Manage your vocabulary cards</p>
         </div>
 
-        {/* Add New Card Button */}
-        <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
-          <DialogTrigger asChild>
-            <Button className='flex items-center space-x-2'>
-              <Plus className='w-4 h-4' />
-              <span>Add New Card</span>
-            </Button>
-          </DialogTrigger>
-          <DialogContent className='max-w-2xl'>
-            <DialogHeader>
-              <DialogTitle>Add New Flashcard</DialogTitle>
-            </DialogHeader>
-            <CardForm onSubmit={handleAddCard} onCancel={() => setIsAddModalOpen(false)} isLoading={isLoading} />
-          </DialogContent>
-        </Dialog>
+        <div className='flex items-center space-x-3'>
+          {/* Add New Category Button */}
+          <Dialog open={isCategoryModalOpen} onOpenChange={setIsCategoryModalOpen}>
+            <DialogTrigger asChild>
+              <Button variant='outline' className='flex items-center space-x-2 bg-transparent'>
+                <FolderPlus className='w-4 h-4' />
+                <span>Add Category</span>
+              </Button>
+            </DialogTrigger>
+            <DialogContent className='max-w-2xl'>
+              <DialogHeader>
+                <DialogTitle className='flex items-center space-x-2'>
+                  <Folder className='w-5 h-5' />
+                  <span>Create New Category</span>
+                </DialogTitle>
+              </DialogHeader>
+              <CategoryForm onSubmit={handleAddCategory} onCancel={() => setIsCategoryModalOpen(false)} isLoading={isCategoryLoading} />
+            </DialogContent>
+          </Dialog>
+
+          {/* Add New Card Button */}
+          <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
+            <DialogTrigger asChild>
+              <Button className='flex items-center space-x-2'>
+                <Plus className='w-4 h-4' />
+                <span>Add New Card</span>
+              </Button>
+            </DialogTrigger>
+            <DialogContent className='max-w-2xl'>
+              <DialogHeader>
+                <DialogTitle>Add New Flashcard</DialogTitle>
+              </DialogHeader>
+              <CardForm onSubmit={handleAddCard} onCancel={() => setIsAddModalOpen(false)} isLoading={isLoading} />
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
-      {/* Filters */}
       <Card className='mb-6'>
         <CardHeader>
           <CardTitle className='flex items-center'>
@@ -124,34 +163,21 @@ export default function CardsPage() {
               </div>
             </div>
 
-            <div>
+            <div className=''>
               <label className='text-sm font-medium mb-2 block'>Category</label>
-              <select
-                value={selectedCategory}
-                onChange={e => setSelectedCategory(e.target.value)}
-                className='w-full p-2 border border-input rounded-md bg-background'
-              >
-                {categories.map(category => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className='text-sm font-medium mb-2 block'>Status</label>
-              <select
-                value={selectedStatus}
-                onChange={e => setSelectedStatus(e.target.value)}
-                className='w-full p-2 border border-input rounded-md bg-background'
-              >
-                {statuses.map(status => (
-                  <option key={status} value={status}>
-                    {status}
-                  </option>
-                ))}
-              </select>
+              <Select value={selectedCategory.value} onValueChange={e => setSelectedCategory({ value: e, label: e })}>
+                <SelectTrigger className='min-w-[120px]'>
+                  <SelectValue placeholder='Select a category' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={OPTION_SELECT_ALL.value}>{OPTION_SELECT_ALL.label}</SelectItem>
+                  {categories.map(category => (
+                    <SelectItem key={category.id} value={category.name}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
         </CardContent>
@@ -194,9 +220,9 @@ export default function CardsPage() {
                 <CardTitle className='text-lg pr-4'>{card.front}</CardTitle>
                 {getStatusBadge(card)}
               </div>
-              <Badge variant='outline' className='w-fit text-xs'>
-                {card.category}
-              </Badge>
+              {/* <Badge variant='outline' className='w-fit text-xs'>
+                {card.category.label}
+              </Badge> */}
             </CardHeader>
             <CardContent>
               {card.example?.map((example, index) => (

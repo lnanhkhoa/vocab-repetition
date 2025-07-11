@@ -1,4 +1,5 @@
 import type { Flashcard } from '@/types/flashcard'
+import { Category } from '@/constants/app-config'
 
 export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval' | 'repetitions' | 'nextReview'>[] = [
   // Advanced Vocabulary
@@ -10,7 +11,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'I ran into my old classmate at a café in Paris — it was pure serendipity.',
       'They met on a delayed flight and ended up getting married — a true story of serendipity.'
     ],
-    category: 'Advanced Vocabulary'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Ubiquitous',
@@ -20,7 +21,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'Social media platforms are ubiquitous among teenagers today.',
       'The use of the internet is now ubiquitous in both work and leisure.'
     ],
-    category: 'Advanced Vocabulary'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Ephemeral',
@@ -30,7 +31,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'Fame can be ephemeral, disappearing as quickly as it arrives.',
       'The rainbow was ephemeral, vanishing just minutes after the rain stopped.'
     ],
-    category: 'Advanced Vocabulary'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Quintessential',
@@ -40,7 +41,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'Paris is the quintessential city of romance.',
       'His performance was the quintessential example of dedication and skill.'
     ],
-    category: 'Advanced Vocabulary'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Paradoxical',
@@ -50,7 +51,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'The medicine had a paradoxical effect, making him feel more awake instead of sleepy.',
       'Her calm reaction in a crisis is paradoxical given her usual anxiety.'
     ],
-    category: 'Advanced Vocabulary'
+    category: Category.advancedVocabulary
   },
 
   // Phrasal Verbs
@@ -59,20 +60,20 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
     definition: '1. To stop working (machine) 2. To analyze into parts 3. To lose emotional control.',
     example: [
       'The car broke down on the highway.',
-      'Let\'s break down this problem step by step.',
+      "Let's break down this problem step by step.",
       'She broke down in tears during the meeting.'
     ],
-    category: 'Phrasal Verbs'
+    category: Category.phrasalVerbs
   },
   {
     front: 'Bring up',
     definition: '1. To raise or care for a child 2. To mention a topic.',
     example: [
       'She was brought up by her grandparents.',
-      'Don\'t bring up politics at dinner.',
+      "Don't bring up politics at dinner.",
       'He brought up an interesting point during the discussion.'
     ],
-    category: 'Phrasal Verbs'
+    category: Category.phrasalVerbs
   },
   {
     front: 'Come across',
@@ -82,17 +83,17 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'He comes across as very confident.',
       'I came across a great little café yesterday.'
     ],
-    category: 'Phrasal Verbs'
+    category: Category.phrasalVerbs
   },
   {
     front: 'Put off',
     definition: '1. To postpone 2. To discourage someone from doing something.',
     example: [
       'We had to put off the meeting until next week.',
-      'Don\'t let failure put you off trying again.',
+      "Don't let failure put you off trying again.",
       'The bad weather put us off our plans for a picnic.'
     ],
-    category: 'Phrasal Verbs'
+    category: Category.phrasalVerbs
   },
   {
     front: 'Run into',
@@ -102,7 +103,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'We ran into some technical difficulties.',
       'You might run into traffic on your way to work.'
     ],
-    category: 'Phrasal Verbs'
+    category: Category.phrasalVerbs
   },
 
   // Idioms
@@ -114,7 +115,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'Asking about the weather is a common way to break the ice.',
       'Games are often used to break the ice at team meetings.'
     ],
-    category: 'Idioms'
+    category: Category.idioms
   },
   {
     front: 'Hit the nail on the head',
@@ -124,17 +125,17 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'Her analysis of the problem really hit the nail on the head.',
       'When he suggested more training, he hit the nail on the head.'
     ],
-    category: 'Idioms'
+    category: Category.idioms
   },
   {
     front: 'Spill the beans',
     definition: 'To reveal a secret or disclose confidential information.',
     example: [
-      'Don\'t spill the beans about the surprise party!',
+      "Don't spill the beans about the surprise party!",
       'She accidentally spilled the beans and told everyone the news.',
       'He promised not to spill the beans about the plan.'
     ],
-    category: 'Idioms'
+    category: Category.idioms
   },
   {
     front: 'Bite the bullet',
@@ -144,7 +145,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'She decided to bite the bullet and go to the dentist.',
       'Sometimes you just have to bite the bullet and accept change.'
     ],
-    category: 'Idioms'
+    category: Category.idioms
   },
   {
     front: 'Cut corners',
@@ -154,7 +155,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'If you cut corners when building a house, it might not be safe.',
       'Students sometimes cut corners on their assignments to finish quickly.'
     ],
-    category: 'Idioms'
+    category: Category.idioms
   },
 
   // Business English
@@ -166,17 +167,17 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'She leveraged her connections to get the job done faster.',
       'The company leveraged technology to improve productivity.'
     ],
-    category: 'Business English'
+    category: Category.businessEnglish
   },
   {
     front: 'Synergy',
     definition: 'The interaction of elements that when combined produce a total effect greater than the sum of individual parts.',
     example: [
-      'The merger created synergy between the two companies\' technologies.',
+      "The merger created synergy between the two companies' technologies.",
       'There was great synergy among the project team members.',
       'Good synergy between departments leads to better results.'
     ],
-    category: 'Business English'
+    category: Category.businessEnglish
   },
   {
     front: 'Stakeholder',
@@ -186,7 +187,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'Every stakeholder attended the annual meeting.',
       'The company aims to satisfy all its stakeholders.'
     ],
-    category: 'Business English'
+    category: Category.businessEnglish
   },
   {
     front: 'Benchmark',
@@ -194,9 +195,9 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
     example: [
       'Our customer service response time is the benchmark for the industry.',
       'This company sets a benchmark for quality.',
-      'We use last year\'s sales as a benchmark for this year\'s performance.'
+      "We use last year's sales as a benchmark for this year's performance."
     ],
-    category: 'Business English'
+    category: Category.businessEnglish
   },
   {
     front: 'Scalable',
@@ -206,7 +207,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'Cloud computing offers scalable resources for companies.',
       'The system is scalable and can handle increased demand.'
     ],
-    category: 'Business English'
+    category: Category.businessEnglish
   },
 
   // Academic Vocabulary
@@ -214,11 +215,11 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
     front: 'Hypothesis',
     definition: 'A proposed explanation for a phenomenon, used as a starting point for investigation.',
     example: [
-      'The scientist\'s hypothesis was that increased temperature would accelerate the reaction.',
+      "The scientist's hypothesis was that increased temperature would accelerate the reaction.",
       'We tested the hypothesis using several experiments.',
       'Her hypothesis was later proven correct by the data.'
     ],
-    category: 'Academic Vocabulary'
+    category: Category.academicVocabulary
   },
   {
     front: 'Methodology',
@@ -228,7 +229,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'We need to update our methodology for this new project.',
       'Their methodology was praised for its thoroughness.'
     ],
-    category: 'Academic Vocabulary'
+    category: Category.academicVocabulary
   },
   {
     front: 'Empirical',
@@ -238,7 +239,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'Her findings are based on empirical data.',
       'Empirical research is essential in the scientific method.'
     ],
-    category: 'Academic Vocabulary'
+    category: Category.academicVocabulary
   },
   {
     front: 'Paradigm',
@@ -248,17 +249,17 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'The new software introduced a paradigm shift in the industry.',
       'She is considered a paradigm of leadership.'
     ],
-    category: 'Academic Vocabulary'
+    category: Category.academicVocabulary
   },
   {
     front: 'Correlation',
     definition: 'A mutual relationship between two or more things.',
     example: [
-      'There\'s a strong correlation between education level and income.',
+      "There's a strong correlation between education level and income.",
       'Researchers found a correlation between diet and health.',
       'Not all correlations imply causation.'
     ],
-    category: 'Academic Vocabulary'
+    category: Category.academicVocabulary
   },
 
   // TOEFL/IELTS Vocabulary
@@ -270,7 +271,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'He invested a substantial amount of money in the project.',
       'There was a substantial difference between the two proposals.'
     ],
-    category: 'TOEFL/IELTS Vocabulary'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Comprehensive',
@@ -280,7 +281,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'She gave a comprehensive overview of the topic.',
       'Our course offers a comprehensive approach to language learning.'
     ],
-    category: 'TOEFL/IELTS Vocabulary'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Inevitable',
@@ -290,7 +291,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'Change is inevitable in every industry.',
       'It was inevitable that they would meet again.'
     ],
-    category: 'TOEFL/IELTS Vocabulary'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Predominant',
@@ -300,17 +301,17 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'The predominant color in the painting is blue.',
       'Agriculture is the predominant industry in this region.'
     ],
-    category: 'TOEFL/IELTS Vocabulary'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Versatile',
     definition: 'Able to adapt to many different functions or activities.',
     example: [
-      'She\'s a versatile employee who can work in any department.',
+      "She's a versatile employee who can work in any department.",
       'This tool is versatile and can be used for many purposes.',
       'Versatile players are valuable to any sports team.'
     ],
-    category: 'TOEFL/IELTS Vocabulary'
+    category: Category.advancedVocabulary
   },
 
   // Collocations
@@ -319,20 +320,20 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
     definition: 'To choose between alternatives; to decide.',
     example: [
       'We need to make a decision about the budget by Friday.',
-      'It\'s important to make a decision quickly in emergencies.',
+      "It's important to make a decision quickly in emergencies.",
       'She found it hard to make a decision about her future.'
     ],
-    category: 'Collocations'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Take responsibility',
     definition: 'To accept that you are in charge of something or accountable for something.',
     example: [
-      'The manager took responsibility for the project\'s failure.',
-      'Parents must take responsibility for their children\'s education.',
+      "The manager took responsibility for the project's failure.",
+      "Parents must take responsibility for their children's education.",
       'He refused to take responsibility for the mistake.'
     ],
-    category: 'Collocations'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Pay attention',
@@ -342,7 +343,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'Children often struggle to pay attention in class.',
       'Pay attention to the details in this contract.'
     ],
-    category: 'Collocations'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Heavy traffic',
@@ -352,7 +353,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'Heavy traffic is common during rush hour.',
       'We got stuck in heavy traffic for over an hour.'
     ],
-    category: 'Collocations'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Strong coffee',
@@ -362,7 +363,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'He prefers strong coffee over tea.',
       'This café is famous for its strong coffee.'
     ],
-    category: 'Collocations'
+    category: Category.advancedVocabulary
   },
 
   // Grammar Concepts
@@ -374,7 +375,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'I lived there in 2010. (simple past)',
       'Have you ever visited Japan? (present perfect)'
     ],
-    category: 'Grammar Concepts'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Conditional Sentences Type 2',
@@ -384,7 +385,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'If she studied harder, she would pass the exam.',
       'If it rained, we would stay indoors.'
     ],
-    category: 'Grammar Concepts'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Passive Voice',
@@ -394,7 +395,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'The cake was eaten before I arrived. (passive)',
       'The team wrote the report. (active)'
     ],
-    category: 'Grammar Concepts'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Reported Speech',
@@ -404,69 +405,47 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'She said, "I will call you" becomes She said she would call me.',
       'They said, "We can help" becomes They said they could help.'
     ],
-    category: 'Grammar Concepts'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Articles (a, an, the)',
     definition: 'A/An: indefinite, first mention. The: definite, specific/known. No article with general plurals.',
-    example: [
-      'I saw a dog. The dog was brown.',
-      'No article: Dogs are loyal.',
-      'She bought an apple and the apple was delicious.'
-    ],
-    category: 'Grammar Concepts'
+    example: ['I saw a dog. The dog was brown.', 'No article: Dogs are loyal.', 'She bought an apple and the apple was delicious.'],
+    category: Category.advancedVocabulary
   },
 
   // Common Mistakes
   {
     front: 'Affect vs Effect',
     definition: 'AFFECT = verb (to influence). EFFECT = noun (result). Memory trick: A for Action (affect), E for End result (effect).',
-    example: [
-      'The rain will affect our plans.',
-      'The effect of rain was cancelled plans.',
-      'How will this decision affect the outcome?'
-    ],
-    category: 'Common Mistakes'
+    example: ['The rain will affect our plans.', 'The effect of rain was cancelled plans.', 'How will this decision affect the outcome?'],
+    category: Category.advancedVocabulary
   },
   {
     front: "Its vs It's",
-    definition: "ITS = possessive (belonging to it). IT'S = contraction (it is/it has). Test: expand 'it's' to 'it is' - if it makes sense, use it's.",
-    example: [
-      'The dog wagged its tail.',
-      "It's raining outside.",
-      'The company changed its logo last year.'
-    ],
-    category: 'Common Mistakes'
+    definition:
+      "ITS = possessive (belonging to it). IT'S = contraction (it is/it has). Test: expand 'it's' to 'it is' - if it makes sense, use it's.",
+    example: ['The dog wagged its tail.', "It's raining outside.", 'The company changed its logo last year.'],
+    category: Category.advancedVocabulary
   },
   {
     front: 'Then vs Than',
     definition: 'THEN = time sequence. THAN = comparison. Memory: theN = time, thaN = comparison.',
-    example: [
-      'First we ate, then we left.',
-      'She is taller than me.',
-      'If you finish your homework, then you can play.'
-    ],
-    category: 'Common Mistakes'
+    example: ['First we ate, then we left.', 'She is taller than me.', 'If you finish your homework, then you can play.'],
+    category: Category.advancedVocabulary
   },
   {
     front: "Your vs You're",
-    definition: "YOUR = possessive (belonging to you). YOU'RE = contraction (you are). Test: expand 'you're' to 'you are' - if it makes sense, use you're.",
-    example: [
-      'Is this your book?',
-      "You're very kind.",
-      'Your car is parked outside.'
-    ],
-    category: 'Common Mistakes'
+    definition:
+      "YOUR = possessive (belonging to you). YOU'RE = contraction (you are). Test: expand 'you're' to 'you are' - if it makes sense, use you're.",
+    example: ['Is this your book?', "You're very kind.", 'Your car is parked outside.'],
+    category: Category.advancedVocabulary
   },
   {
     front: 'Lose vs Loose',
     definition: "LOSE = verb (to misplace/not win). LOOSE = adjective (not tight). Memory: lose has one 'o' like you lose one thing.",
-    example: [
-      "Don't lose your keys.",
-      'This shirt is too loose.',
-      'If you lose the game, try again.'
-    ],
-    category: 'Common Mistakes'
+    example: ["Don't lose your keys.", 'This shirt is too loose.', 'If you lose the game, try again.'],
+    category: Category.advancedVocabulary
   },
 
   // Descriptive Adjectives
@@ -474,11 +453,11 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
     front: 'Meticulous',
     definition: 'Showing great attention to detail; very careful and precise.',
     example: [
-      'She\'s meticulous about keeping records—every detail is documented perfectly.',
+      "She's meticulous about keeping records—every detail is documented perfectly.",
       'His work is always meticulous and thorough.',
       'You need to be meticulous when proofreading important documents.'
     ],
-    category: 'Descriptive Adjectives'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Resilient',
@@ -488,7 +467,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'Children are often more resilient than adults realize.',
       'The resilient material returned to its original shape after being bent.'
     ],
-    category: 'Descriptive Adjectives'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Eloquent',
@@ -498,7 +477,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'She gave an eloquent description of her experiences.',
       'He is known for his eloquent writing style.'
     ],
-    category: 'Descriptive Adjectives'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Pragmatic',
@@ -508,7 +487,7 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'Her pragmatic attitude helped the team succeed.',
       'He offered a pragmatic solution to the issue.'
     ],
-    category: 'Descriptive Adjectives'
+    category: Category.advancedVocabulary
   },
   {
     front: 'Tenacious',
@@ -518,6 +497,6 @@ export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval
       'He is tenacious in pursuing his goals.',
       'The tenacious weeds were difficult to remove.'
     ],
-    category: 'Descriptive Adjectives'
+    category: Category.advancedVocabulary
   }
 ]

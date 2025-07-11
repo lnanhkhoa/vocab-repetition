@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { Card, Button, Label } from '@/components/ui'
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue, SelectLabel, selec } from '@/components/ui/select'
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select'
 
 import { CATEGORIES } from '@/constants/app-config'
 

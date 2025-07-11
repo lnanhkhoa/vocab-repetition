@@ -11,6 +11,9 @@ import { useEffect } from 'react'
 import { redirect } from 'next/navigation'
 import { routeName } from '@/constants/routeName'
 
+// import {seed} from '@/data/seed'
+// seed()
+
 export default function DashboardPage() {
   const { getStats } = useFlashcards()
   const stats = getStats()
