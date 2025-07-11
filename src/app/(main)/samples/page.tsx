@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
-import { useFlashcards } from "@/hooks/use-flashcards"
+import { useCards } from "@/hooks/use-cards"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
@@ -9,7 +9,7 @@ import { CheckCircle, Home, RotateCcw, Clock, BookOpen } from "lucide-react"
 import Link from "next/link"
 
 export default function StudyPage() {
-  const { getReviewCards, updateCard, getStats } = useFlashcards()
+  const { getReviewCards, updateCard } = useCards()
   const [reviewCards, setReviewCards] = useState<any[]>([])
   const [currentCardIndex, setCurrentCardIndex] = useState(0)
   const [showAnswer, setShowAnswer] = useState(false)

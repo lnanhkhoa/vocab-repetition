@@ -1,8 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useFlashcards } from '@/hooks/use-flashcards'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useState, useEffect } from 'react'
+import { Card as CardComponent, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
@@ -10,30 +9,46 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { CardForm } from '@/components/card-form'
 import { Search, Filter, BookOpen, Clock, Award, Plus, MoreVertical, Edit, Trash2, FolderPlus, Folder } from 'lucide-react'
-import type { EditFlashcard, Flashcard } from '@/types/flashcard'
+import type { EditFlashcard, Card, Category } from '@/types'
 import { useCategories } from '@/hooks/use-categories'
 import { CategoryForm } from '@/components/category-form'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui'
 import { toast } from 'sonner'
 import { OPTION_SELECT_ALL } from '@/constants/app-config'
+import { useCards } from '@/hooks/use-cards'
+
+const pageSize = 10 // You can adjust this as needed
 
 export default function CardsPage() {
-  const { cards, addCard, editCard, deleteCard } = useFlashcards()
+  const { cards = [], addCard, editCard, deleteCard } = useCards()
   const { categories, addCategory } = useCategories()
 
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState(OPTION_SELECT_ALL)
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
-  const [editingCard, setEditingCard] = useState<Flashcard | null>(null)
+  const [editingCard, setEditingCard] = useState<Card | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false)
   const [isCategoryLoading, setIsCategoryLoading] = useState(false)
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1)
 
   const filteredCards = cards.filter(card => {
     const matchesSearch = card.front.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesCategory = selectedCategory.value === OPTION_SELECT_ALL.value || card.category.code === selectedCategory.value
     return matchesSearch && matchesCategory
   })
+
+  // Pagination calculations
+  const totalCards = filteredCards.length
+  const totalPages = Math.ceil(totalCards / pageSize)
+  const paginatedCards = filteredCards.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchTerm, selectedCategory])
 
   const handleAddCard = async (cardData: EditFlashcard) => {
     setIsLoading(true)
@@ -67,7 +82,7 @@ export default function CardsPage() {
     }
   }
 
-  const getStatusBadge = (card: Flashcard) => {
+  const getStatusBadge = (card: Card) => {
     if (card.repetitions === 0) return <Badge variant='secondary'>New</Badge>
     if (card.repetitions < 3) return <Badge variant='outline'>Learning</Badge>
     return <Badge className='bg-green-100 text-green-800'>Mastered</Badge>
@@ -138,7 +153,7 @@ export default function CardsPage() {
             </DialogTrigger>
             <DialogContent className='max-w-2xl'>
               <DialogHeader>
-                <DialogTitle>Add New Flashcard</DialogTitle>
+                <DialogTitle>Add New Card</DialogTitle>
               </DialogHeader>
               <CardForm onSubmit={handleAddCard} onCancel={() => setIsAddModalOpen(false)} isLoading={isLoading} />
             </DialogContent>
@@ -146,7 +161,7 @@ export default function CardsPage() {
         </div>
       </div>
 
-      <Card className='mb-6'>
+      <CardComponent className='mb-6'>
         <CardHeader>
           <CardTitle className='flex items-center'>
             <Filter className='w-5 h-5 mr-2' />
@@ -181,19 +196,40 @@ export default function CardsPage() {
             </div>
           </div>
         </CardContent>
-      </Card>
+      </CardComponent>
 
       {/* Results Summary */}
-      <div className='mb-6'>
+      <div className='mb-6 flex justify-between items-center'>
         <p className='text-muted-foreground'>
           Showing {filteredCards.length} of {cards.length} cards
         </p>
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className='flex justify-center mt-6 space-x-2'>
+            <Button variant='outline' size='sm' onClick={() => setCurrentPage(p => Math.max(p - 1, 1))} disabled={currentPage === 1}>
+              Previous
+            </Button>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <Button key={i + 1} variant={currentPage === i + 1 ? 'default' : 'outline'} size='sm' onClick={() => setCurrentPage(i + 1)}>
+                {i + 1}
+              </Button>
+            ))}
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Cards Grid */}
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-        {filteredCards.map(card => (
-          <Card key={card.id} className='hover:shadow-md transition-shadow relative'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+        {paginatedCards.map(card => (
+          <CardComponent key={card.id} className='hover:shadow-md transition-shadow relative gap-2'>
             {/* Options Menu */}
             <div className='absolute top-3 right-3 z-10'>
               <DropdownMenu>
@@ -215,7 +251,7 @@ export default function CardsPage() {
               </DropdownMenu>
             </div>
 
-            <CardHeader className='pb-3 pr-12'>
+            <CardHeader className='pb-1 pr-12'>
               <div className='flex justify-between items-start'>
                 <CardTitle className='text-lg pr-4'>{card.front}</CardTitle>
                 {getStatusBadge(card)}
@@ -224,12 +260,8 @@ export default function CardsPage() {
                 {card.category.label}
               </Badge> */}
             </CardHeader>
-            <CardContent>
-              {card.example?.map((example, index) => (
-                <p key={index} className='text-muted-foreground mb-4 line-clamp-3'>
-                  {example}
-                </p>
-              ))}
+            <CardContent className='gap-1'>
+              <p className='text-muted-foreground mb-2 line-clamp-3'>{card.definition}</p>
               <div className='space-y-2 text-sm'>
                 <div className='flex justify-between'>
                   <span className='flex items-center'>
@@ -269,7 +301,7 @@ export default function CardsPage() {
                 </div> */}
               </div>
             </CardContent>
-          </Card>
+          </CardComponent>
         ))}
       </div>
 
@@ -277,7 +309,7 @@ export default function CardsPage() {
       <Dialog open={!!editingCard} onOpenChange={() => setEditingCard(null)}>
         <DialogContent className='max-w-2xl'>
           <DialogHeader>
-            <DialogTitle>Edit Flashcard</DialogTitle>
+            <DialogTitle>Edit Card</DialogTitle>
           </DialogHeader>
           {editingCard && (
             <CardForm card={editingCard} onSubmit={handleEditCard} onCancel={() => setEditingCard(null)} isLoading={isLoading} />
@@ -286,7 +318,7 @@ export default function CardsPage() {
       </Dialog>
 
       {filteredCards.length === 0 && (
-        <Card className='text-center py-8'>
+        <CardComponent className='text-center py-8'>
           <CardContent>
             <BookOpen className='w-16 h-16 text-muted-foreground mx-auto mb-4' />
             <h3 className='text-lg font-semibold mb-2'>No cards found</h3>
@@ -296,7 +328,7 @@ export default function CardsPage() {
               Add Your First Card
             </Button>
           </CardContent>
-        </Card>
+        </CardComponent>
       )}
     </div>
   )

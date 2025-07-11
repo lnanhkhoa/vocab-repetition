@@ -1,4 +1,4 @@
-import type { Flashcard } from '@/types/flashcard'
+import type { Flashcard } from '@/types'
 import { Category } from '@/constants/app-config'
 
 export const comprehensiveCards: Omit<Flashcard, 'id' | 'easeFactor' | 'interval' | 'repetitions' | 'nextReview'>[] = [

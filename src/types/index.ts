@@ -1,6 +1,14 @@
-import { Category } from '@/hooks/use-categories'
 
-export interface Flashcard {
+export interface Category {
+  id: string
+  name: string
+  code: string
+  description: string
+  difficulty: string
+  createdAt: Date
+}
+
+export interface Card {
   id: string
   front: string
   definition: string

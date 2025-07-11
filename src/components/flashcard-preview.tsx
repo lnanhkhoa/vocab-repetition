@@ -11,10 +11,6 @@ import { CATEGORY_COLORS } from '@/constants/app-config'
 export function FlashcardPreview() {
   // TODO: Replace with useFlashcards() logic for real review
   const handleReview = (quality: number) => {
-    // Example: console.log(`Reviewed card ${currentCard.front} with quality ${quality}`)
-    // Here, you would call updateCard(currentCard.id, quality) from useFlashcards
-    // and then go to the next card
-    // updateCard(currentCard.id, quality)
     nextCard()
     setIsFlipped(false)
   }

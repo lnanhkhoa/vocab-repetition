@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Volume2 } from 'lucide-react'
-import type { Flashcard as FlashcardType } from '@/types/flashcard'
+import type { Flashcard as FlashcardType } from '@/types'
 
 interface AnkiFlashcardProps {
   card: FlashcardType

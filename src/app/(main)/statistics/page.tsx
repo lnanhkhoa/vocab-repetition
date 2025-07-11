@@ -1,6 +1,6 @@
 'use client'
 
-import { useFlashcards } from '@/hooks/use-flashcards'
+import { useCards } from '@/hooks/use-cards'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { BarChart3, Calendar, Clock, Target, TrendingUp, Award } from 'lucide-react'
@@ -8,17 +8,20 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 export default function StatisticsPage() {
-  const { cards, progress } = useFlashcards()
+  const { cards } = useCards()
+  const progress = {
+    streak: 0
+  }
 
   // Calculate detailed statistics
   const categoryStats = cards.reduce(
     (acc, card) => {
-      if (!acc[card.category]) {
-        acc[card.category] = { total: 0, mastered: 0 }
+      if (!acc[card.category.code]) {
+        acc[card.category.code] = { total: 0, mastered: 0 }
       }
-      acc[card.category].total++
+      acc[card.category.code].total++
       if (card.repetitions >= 3) {
-        acc[card.category].mastered++
+        acc[card.category.code].mastered++
       }
       return acc
     },

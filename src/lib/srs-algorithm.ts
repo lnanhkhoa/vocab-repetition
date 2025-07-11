@@ -1,6 +1,6 @@
-import type { Flashcard } from '@/types/flashcard'
+import type { Card } from '@/types'
 
-export function calculateNextReview(card: Flashcard, quality: number): Flashcard {
+export function calculateNextReview(card: Card, quality: number): Card {
   // SM-2 Algorithm implementation
   let { easeFactor, interval, repetitions } = card
 
@@ -34,7 +34,7 @@ export function calculateNextReview(card: Flashcard, quality: number): Flashcard
   }
 }
 
-export function getCardsForReview(cards: Flashcard[]): Flashcard[] {
+export function getCardsForReview(cards: Card[]): Card[] {
   const now = new Date()
   return cards.filter(card => new Date(card.nextReview) <= now)
 }

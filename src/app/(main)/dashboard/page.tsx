@@ -1,6 +1,6 @@
 'use client'
 
-import { useFlashcards } from '@/hooks/use-flashcards'
+import { useCards } from '@/hooks/use-cards'
 import { ProgressDashboard } from '@/components/progress-dashboard'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -10,12 +10,13 @@ import { useUserSession } from '@/hooks/use-user-session'
 import { useEffect } from 'react'
 import { redirect } from 'next/navigation'
 import { routeName } from '@/constants/routeName'
-
+import { useRouter } from 'next/navigation'
 // import {seed} from '@/data/seed'
 // seed()
 
 export default function DashboardPage() {
-  const { getStats } = useFlashcards()
+  const router = useRouter()
+  const { getStats } = useCards()
   const stats = getStats()
   const { userSession, loading } = useUserSession()
 
@@ -33,7 +34,7 @@ export default function DashboardPage() {
 
       <ProgressDashboard stats={stats} />
 
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto'>
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto'>
         <Card>
           <CardHeader>
             <CardTitle className='flex items-center'>
@@ -45,11 +46,15 @@ export default function DashboardPage() {
             <p className='text-muted-foreground mb-4'>
               {stats.dueCards > 0 ? `You have ${stats.dueCards} cards ready for review.` : 'All cards are up to date! Check back later.'}
             </p>
-            <Link href='/study'>
-              <Button className='w-full' disabled={stats.dueCards === 0}>
-                {stats.dueCards > 0 ? 'Start Review Session' : 'No Cards Due'}
-              </Button>
-            </Link>
+            <Button
+              className='w-full'
+              onClick={() => {
+                router.push(routeName.study)
+              }}
+              disabled={stats.dueCards === 0 || stats.dueCardsPercentage === 0}
+            >
+              {stats.dueCards > 0 ? 'Start Review Session' : 'No Cards Due'}
+            </Button>
           </CardContent>
         </Card>
 

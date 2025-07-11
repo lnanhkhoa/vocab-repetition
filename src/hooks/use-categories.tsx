@@ -4,15 +4,7 @@ import { supabase } from '@/lib/supabase'
 import { useState, useEffect } from 'react'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
-
-export interface Category {
-  id: string
-  name: string
-  code: string
-  description: string
-  difficulty: string
-  createdAt: Date
-}
+import { Category } from '@/types'
 
 interface CategoryStore {
   categories: Category[]
